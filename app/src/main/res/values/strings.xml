@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Parqueadero</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="cobrar">Cobrar</string>
 </resources>
