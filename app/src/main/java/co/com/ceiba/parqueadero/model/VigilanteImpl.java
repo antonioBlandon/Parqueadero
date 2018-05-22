@@ -3,7 +3,17 @@ package co.com.ceiba.parqueadero.model;
 public class VigilanteImpl extends Lugar implements Vigilante{
 
     @Override
-    public boolean validarCantidadVehiculos() {
+    public boolean validarCantidadCarros(int cantidadCarrosActual) {
+
+        int cantidadCarros = cantidadCarrosActual + 1;
+        if( cantidadCarros <= 20 ){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean validarCantidadMotos(int cantidadMotosActual) {
         return false;
     }
 

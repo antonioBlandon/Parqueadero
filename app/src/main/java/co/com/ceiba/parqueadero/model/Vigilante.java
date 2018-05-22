@@ -2,7 +2,9 @@ package co.com.ceiba.parqueadero.model;
 
 public interface Vigilante {
 
-    boolean validarCantidadVehiculos();
+    boolean validarCantidadCarros(int cantidadCarrosActual);
+
+    boolean validarCantidadMotos(int cantidadMotosActual);
 
     boolean validarPlaca();
 
