@@ -2,4 +2,6 @@
     <string name="app_name">Parqueadero</string>
     <string name="ingresar">Ingresar</string>
     <string name="cobrar">Cobrar</string>
+    <string name="placa">Placa</string>
+    <string name="cilindraje">Cilindraje (CC)</string>
 </resources>
