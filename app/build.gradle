@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 android {
     compileSdkVersion 27
@@ -26,4 +28,18 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:design:27.1.1'
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Parqueadero"
+        property "sonar.projectKey", "Parqueadero"
+        property "sonar.language", "java"
+        property "sonar.sources", "src/main/java"
+        property "sonar.java.binaries", "build/intermediates/classes/debug"
+        property "sonar.tests", "src/test/java, src/androidTest/java"
+        property "sonar.jacoco.reportPaths", "build/jacoco/testDebugUnitTest.exec"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.junit.reportsPath", "build/test-results/testDebugUnitTest"
+    }
 }
