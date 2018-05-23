@@ -42,13 +42,34 @@ public class VigilanteImpl extends Lugar implements Vigilante {
     }
 
     @Override
-    public int calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida) {
-        return 0;
+    public long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida) {
+        long tiempo = fechaSalida - fechaIngreso;
+        long tiempoEnSegundos = tiempo/1000;
+        long tiempoEnHoras = tiempoEnSegundos/3600;
+        return tiempoEnHoras;
     }
 
     @Override
     public double cobrarParqueadero(Vehiculo vehiculo) {
-        return 0;
+
+        double valor = 0;
+        long[] diasHoras = obtenerCantidadDeDiasYHoras(vehiculo.getTiempoEnParqueadero());;
+        long dias = diasHoras[0];
+        long horas = diasHoras[1];
+        if(vehiculo instanceof Moto){
+            int cilindraje = ((Moto) vehiculo).getCilindraje();
+            valor = (dias*Parqueadero.valorDiaMoto) + (horas*Parqueadero.valorHoraMoto);
+            if(cilindraje>Parqueadero.topeCilindraje){
+                valor = valor + Parqueadero.adicionCilindraje;
+            }
+            return valor;
+        }else if(vehiculo instanceof Carro){
+            valor = (dias*Parqueadero.valorDiaCarro) + (horas*Parqueadero.valorHoraCarro);
+            return valor;
+        }else{
+            return 0.0;
+        }
+
     }
 
     @Override
@@ -73,6 +94,23 @@ public class VigilanteImpl extends Lugar implements Vigilante {
             return false;
         }
 
+    }
+
+    public long[] obtenerCantidadDeDiasYHoras(long horas){
+        long dias = 0;
+        long[] diasHoras = new long[2];
+        while(horas >= 0){
+
+            if(horas > 9){
+                dias++;
+                horas = horas - 24;
+            }else if(horas >= 0){
+                diasHoras[0]=dias;
+                diasHoras[1]=horas;
+            }
+
+        }
+        return diasHoras;
     }
 
 }

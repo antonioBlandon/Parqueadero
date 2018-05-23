@@ -3,12 +3,15 @@ package co.com.ceiba.parqueadero.model;
 public class Parqueadero extends Lugar {
 
     //Tarifas carro
-    private static final int valorHoraCarro = 1000;
-    private static final int valorDiaCarro = 8000;
+    public static final int valorHoraCarro = 1000;
+    public static final int valorDiaCarro = 8000;
 
     //Tarifas moto
-    private static final int valorHoraMoto = 500;
-    private static final int valorDiaMoto = 4000;
+    public static final int valorHoraMoto = 500;
+    public static final int valorDiaMoto = 4000;
+    public static final int adicionCilindraje = 2000;
+
+    public static final int topeCilindraje = 500;
 
     //Contadores
     private int cantidadCarros;

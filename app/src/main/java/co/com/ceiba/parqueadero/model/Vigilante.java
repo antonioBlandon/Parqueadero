@@ -8,7 +8,7 @@ public interface Vigilante {
 
     boolean validarPlaca(String placa, long fechaIngreso);
 
-    int calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida);
+    long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida);
 
     double cobrarParqueadero(Vehiculo vehiculo);
 
