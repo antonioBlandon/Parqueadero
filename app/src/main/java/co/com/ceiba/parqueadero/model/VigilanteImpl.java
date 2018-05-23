@@ -58,13 +58,13 @@ public class VigilanteImpl extends Lugar implements Vigilante {
         long horas = diasHoras[1];
         if(vehiculo instanceof Moto){
             int cilindraje = ((Moto) vehiculo).getCilindraje();
-            valor = (dias*Parqueadero.valorDiaMoto) + (horas*Parqueadero.valorHoraMoto);
-            if(cilindraje>Parqueadero.topeCilindraje){
-                valor = valor + Parqueadero.adicionCilindraje;
+            valor = (dias*Parqueadero.VALOR_DIA_MOTO) + (horas*Parqueadero.VALOR_HORA_MOTO);
+            if(cilindraje>Parqueadero.TOPE_CILINDRAJE){
+                valor = valor + Parqueadero.ADICION_CILINDRAJE;
             }
             return valor;
         }else if(vehiculo instanceof Carro){
-            valor = (dias*Parqueadero.valorDiaCarro) + (horas*Parqueadero.valorHoraCarro);
+            valor = (dias*Parqueadero.VALOR_DIA_CARRO) + (horas*Parqueadero.VALOR_HORA_CARRO);
             return valor;
         }else{
             return 0.0;
