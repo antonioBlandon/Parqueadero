@@ -3,12 +3,12 @@ package co.com.ceiba.parqueadero.model;
 public class Vehiculo {
 
     private String placa;
-    private String fechaIngreso;
-    private String fechaSalida;
+    private long fechaIngreso;
+    private long fechaSalida;
     private int tiempoEnParqueadero;
     private double valorApagarParqueadero;
 
-    public Vehiculo(String placa, String fechaIngreso, String fechaSalida, int tiempoEnParqueadero, double valorApagarParqueadero) {
+    public Vehiculo(String placa, long fechaIngreso, long fechaSalida, int tiempoEnParqueadero, double valorApagarParqueadero) {
         this.placa = placa;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
@@ -24,19 +24,19 @@ public class Vehiculo {
         this.placa = placa;
     }
 
-    public String getFechaIngreso() {
+    public long getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(String fechaIngreso) {
+    public void setFechaIngreso(long fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public String getFechaSalida() {
+    public long getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(String fechaSalida) {
+    public void setFechaSalida(long fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 

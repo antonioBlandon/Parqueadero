@@ -6,10 +6,12 @@ public interface Vigilante {
 
     boolean validarCantidadMotos(int cantidadMotosActual);
 
-    boolean validarPlaca();
+    boolean validarPlaca(String placa, long fechaIngreso);
 
-    int calcularTiempoVehiculoParqueadero();
+    int calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida);
 
-    double cobrarParqueadero();
+    double cobrarParqueadero(Vehiculo vehiculo);
+
+    void sacarVehiculo(String tipoVehiculo);
 
 }
