@@ -12,6 +12,6 @@ public interface Vigilante {
 
     double cobrarParqueadero(Vehiculo vehiculo);
 
-    void sacarVehiculo(String tipoVehiculo);
+    boolean sacarVehiculo(Vehiculo tipoVehiculo);
 
 }

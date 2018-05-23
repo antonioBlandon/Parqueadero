@@ -52,7 +52,26 @@ public class VigilanteImpl extends Lugar implements Vigilante {
     }
 
     @Override
-    public void sacarVehiculo(String tipoVehiculo) {
+    public boolean sacarVehiculo(Vehiculo vehiculo) {
+
+        int cantidad = 0;
+        if (vehiculo instanceof Moto) {
+            cantidad = Parqueadero.getInstance().getCantidadMotos();
+            if (cantidad > 0) {
+                Parqueadero.getInstance().setCantidadMotos(cantidad - 1);
+                return true;
+            }
+            return false;
+        } else if (vehiculo instanceof Carro) {
+            cantidad = Parqueadero.getInstance().getCantidadCarros();
+            if (cantidad > 0) {
+                Parqueadero.getInstance().setCantidadCarros(cantidad - 1);
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
 
     }
 

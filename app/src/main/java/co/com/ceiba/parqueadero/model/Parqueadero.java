@@ -14,9 +14,18 @@ public class Parqueadero extends Lugar {
     private int cantidadCarros;
     private int cantidadMotos;
 
+    public static Parqueadero parqueadero;
+
     public Parqueadero(int cantidadCarros, int cantidadMotos) {
         this.cantidadCarros = cantidadCarros;
         this.cantidadMotos = cantidadMotos;
+    }
+
+    public static Parqueadero getInstance(){
+        if(parqueadero == null){
+            parqueadero = new Parqueadero(0,0);
+        }
+        return parqueadero;
     }
 
     public int getCantidadCarros() {
