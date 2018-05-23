@@ -10,7 +10,7 @@ public interface Vigilante {
 
     long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida);
 
-    double cobrarParqueadero(Vehiculo vehiculo);
+    long cobrarParqueadero(Vehiculo vehiculo);
 
     boolean sacarVehiculo(Vehiculo tipoVehiculo);
 

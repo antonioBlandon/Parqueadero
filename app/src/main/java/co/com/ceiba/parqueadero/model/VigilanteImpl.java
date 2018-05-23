@@ -2,25 +2,20 @@ package co.com.ceiba.parqueadero.model;
 
 import java.util.Calendar;
 
-public class VigilanteImpl extends Lugar implements Vigilante {
+public class VigilanteImpl implements Vigilante {
 
     @Override
     public boolean validarCantidadCarros(int cantidadCarrosActual) {
 
         int cantidadCarros = cantidadCarrosActual + 1;
-        if (cantidadCarros <= 20) {
-            return true;
-        }
-        return false;
+        return cantidadCarros <= 20;
+
     }
 
     @Override
     public boolean validarCantidadMotos(int cantidadMotosActual) {
         int cantidadMotos = cantidadMotosActual + 1;
-        if (cantidadMotos <= 20) {
-            return true;
-        }
-        return false;
+        return cantidadMotos <= 20;
     }
 
     @Override
@@ -31,11 +26,8 @@ public class VigilanteImpl extends Lugar implements Vigilante {
             int domingo = 1;
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(fechaIngreso);
-            int diaIngresoDeLaSemana = calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-            if ((diaIngresoDeLaSemana == domingo) || (diaIngresoDeLaSemana == lunes)) {
-                return false;
-            }
-            return true;
+            int diaIngresoDeLaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+            return ((diaIngresoDeLaSemana == domingo) || (diaIngresoDeLaSemana == lunes));
         }
         return true;
 
@@ -45,15 +37,14 @@ public class VigilanteImpl extends Lugar implements Vigilante {
     public long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida) {
         long tiempo = fechaSalida - fechaIngreso;
         long tiempoEnSegundos = tiempo/1000;
-        long tiempoEnHoras = tiempoEnSegundos/3600;
-        return tiempoEnHoras;
+        return tiempoEnSegundos/3600;
     }
 
     @Override
-    public double cobrarParqueadero(Vehiculo vehiculo) {
+    public long cobrarParqueadero(Vehiculo vehiculo) {
 
-        double valor = 0;
-        long[] diasHoras = obtenerCantidadDeDiasYHoras(vehiculo.getTiempoEnParqueadero());;
+        long valor;
+        long[] diasHoras = obtenerCantidadDeDiasYHoras(vehiculo.getTiempoEnParqueadero());
         long dias = diasHoras[0];
         long horas = diasHoras[1];
         if(vehiculo instanceof Moto){
@@ -67,7 +58,7 @@ public class VigilanteImpl extends Lugar implements Vigilante {
             valor = (dias*Parqueadero.VALOR_DIA_CARRO) + (horas*Parqueadero.VALOR_HORA_CARRO);
             return valor;
         }else{
-            return 0.0;
+            return 0;
         }
 
     }
