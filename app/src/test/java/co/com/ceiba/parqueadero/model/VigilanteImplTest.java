@@ -18,7 +18,7 @@ public class VigilanteImplTest {
     @Test
     public void testValidarCantidadCarros(){
         //Arrange
-        int cantidadCarrosActual = 20;
+        int cantidadCarrosActual = 19;
         //Act
         boolean puedeIngresar = vigilante.validarCantidadCarros(cantidadCarrosActual);
         //Assert
