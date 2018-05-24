@@ -89,7 +89,12 @@ public class VigilanteImplTest {
 
     @Test
     public void testCalcularTiempoVehiculoParqueadero(){
-
+        //Arrange
+        Vehiculo vehiculo = aVehicle().build();
+        //Act
+        long horasEnParqueadero = vigilante.calcularTiempoVehiculoParqueadero(vehiculo.getFechaIngreso(),vehiculo.getFechaSalida());
+        //Assert
+        Assert.assertEquals(21,horasEnParqueadero);
     }
 
     @Test

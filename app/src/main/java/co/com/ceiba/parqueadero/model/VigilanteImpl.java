@@ -24,7 +24,8 @@ public class VigilanteImpl implements Vigilante {
         String primeraLetra = placa.substring(0,1);
         if (primeraLetra.equals("A")) {
             //Dias validos
-            int lunes = 2, domingo =1;
+            int lunes = 2;
+            int domingo =1;
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(fechaIngreso);
