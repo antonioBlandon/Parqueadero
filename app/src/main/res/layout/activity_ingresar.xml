@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    tools:context=".view.ingresar.ActivityIngresar">
+    tools:context=".registrar.RegistrarActivity">
 
-    <Spinner
-        android:id="@+id/spinner_ingresar_tipo_vehiculo"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/placa_title"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_ingresar_placa"
@@ -21,9 +22,16 @@
             android:id="@+id/edit_text_ingresar_placa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/placa" />
+            android:hint="@string/ingresar_placa"
+            android:inputType="textCapCharacters"/>
 
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cilindraje_title"
+        android:layout_marginTop="10dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_ingresar_cilindraje"
@@ -44,6 +52,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/ingresar"/>
+        android:text="@string/registrar_entrada"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_ingresar_ir_a_cobrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_money"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_margin="16dp" />
 
 </LinearLayout>

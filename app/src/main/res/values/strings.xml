@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Parqueadero</string>
-    <string name="ingresar">Ingresar</string>
+    <string name="registrar_entrada">Registrar</string>
     <string name="cobrar">Cobrar</string>
-    <string name="placa">Placa</string>
-    <string name="cilindraje">Cilindraje (CC)</string>
+    <string name="placa_title">Placa</string>
+    <string name="cilindraje_title">Cilindraje (En caso de motocicleta)</string>
     <string name="buscar">Buscar</string>
     <string name="placa_subtitle">Placa:</string>
     <string name="cilindraje_subtitle">Cilindraje:</string>
@@ -11,4 +11,8 @@
     <string name="fecha_salida_subtitle">Fecha Salida:</string>
     <string name="tiempo_subtitle">Tiempo:</string>
     <string name="valor_a_pagar_subtitle">Valor a Pagar:</string>
+    <string name="ingresar_placa">Ingrese la placa</string>
+    <string name="cilindraje">Ingresar cilindraje en CC</string>
+    <string name="vehiculo_no_autorizado">El vehiculo no tiene autorización para ingresar</string>
+    <string name="ingreso_exitoso">El vehículo ingreso exitosamente</string>
 </resources>

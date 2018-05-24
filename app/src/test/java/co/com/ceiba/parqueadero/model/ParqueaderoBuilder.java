@@ -1,5 +1,7 @@
 package co.com.ceiba.parqueadero.model;
 
+import co.com.ceiba.parqueadero.entities.Parqueadero;
+
 public class ParqueaderoBuilder {
 
     //Contadores

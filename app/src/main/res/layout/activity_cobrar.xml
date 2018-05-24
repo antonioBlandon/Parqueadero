@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    tools:context=".view.cobrar.ActivityCobrar">
+    tools:context=".cobrar.ActivityCobrar">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/text_input_cobrar_placa"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="@string/placa"/>
+            android:hint="@string/ingresar_placa"/>
 
     </android.support.design.widget.TextInputLayout>
 

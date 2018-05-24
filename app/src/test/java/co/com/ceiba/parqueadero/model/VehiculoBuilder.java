@@ -1,5 +1,9 @@
 package co.com.ceiba.parqueadero.model;
 
+import co.com.ceiba.parqueadero.entities.Carro;
+import co.com.ceiba.parqueadero.entities.Moto;
+import co.com.ceiba.parqueadero.entities.Vehiculo;
+
 public class VehiculoBuilder {
 
     private String placa;
