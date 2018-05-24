@@ -58,35 +58,33 @@ public class VigilanteImplTest {
     }
 
     @Test
-    public void testValidarPlacaConAInicial(){
-        /*//Arrange
-        String placa = "ABC123";
-        long fechaIngreso = Calendar.getInstance().getTimeInMillis();
-        //Act
-        boolean puedeIngresar = vigilante.validarPlaca(placa,fechaIngreso);
-        //Assert
-        Assert.assertEquals(true,puedeIngresar);*/
-    }
-
-    @Test
     public void testValidarPlacaSinAInicial(){
         //Arrange
-        String placa = "BAC123";
-        long fechaIngreso = Calendar.getInstance().getTimeInMillis();
+        Vehiculo vehiculo = aVehicle().withPlacaWithoutAinit("BTA234").build();
         //Act
-        boolean puedeIngresar = vigilante.validarPlaca(placa,fechaIngreso);
+        boolean puedeIngresar = vigilante.validarPlaca(vehiculo.getPlaca(),vehiculo.getFechaIngreso());
         //Assert
         Assert.assertEquals(true,puedeIngresar);
     }
 
     @Test
-    public void testValidarPlacaConAInicialDiaValido(){
-
+    public void testValidarPlacaConAInicialDiasValidos(){
+        //Arrange
+        Vehiculo vehiculo = aVehicle().withFechaValida(1515934000).build();//Sun Jan 18 1970 08:05:34 GMT-0500
+        //Act
+        boolean puedeIngresar = vigilante.validarPlaca(vehiculo.getPlaca(),vehiculo.getFechaIngreso());
+        //Assert
+        Assert.assertEquals(true,puedeIngresar);
     }
 
     @Test
-    public void testValidarPlacaConAInicialDiaInvalido(){
-
+    public void testValidarPlacaConAInicialDiasNoValidos(){
+        //Arrange
+        Vehiculo vehiculo = aVehicle().build();
+        //Act
+        boolean puedeIngresar = vigilante.validarPlaca(vehiculo.getPlaca(),vehiculo.getFechaIngreso());
+        //Assert
+        Assert.assertEquals(false,puedeIngresar);
     }
 
     @Test

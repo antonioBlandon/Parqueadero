@@ -23,12 +23,14 @@ public class VigilanteImpl implements Vigilante {
 
         String primeraLetra = placa.substring(0,1);
         if (primeraLetra.equals("A")) {
-            int lunes = 2;
-            int domingo = 1;
+            //Dias validos
+            int lunes = 2, domingo =1;
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(fechaIngreso);
             int diaIngresoDeLaSemana = calendar.get(Calendar.DAY_OF_WEEK);
             return ((diaIngresoDeLaSemana == domingo) || (diaIngresoDeLaSemana == lunes));
+
         }
         return true;
 
