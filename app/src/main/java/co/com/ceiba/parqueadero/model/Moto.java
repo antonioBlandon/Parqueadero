@@ -4,8 +4,8 @@ public class Moto extends Vehiculo {
 
     private int cilindraje;
 
-    public Moto(String placa, long fechaIngreso, long fechaSalida, int tiempoEnParqueadero, double valorApagarParqueadero) {
-        super(placa, fechaIngreso, fechaSalida, tiempoEnParqueadero, valorApagarParqueadero);
+    public Moto(String placa, long fechaIngreso, long fechaSalida, long horasEnParqueadero, long diasEnParqueadero, double valorApagarParqueadero) {
+        super(placa, fechaIngreso, fechaSalida, horasEnParqueadero, diasEnParqueadero, valorApagarParqueadero);
     }
 
     public int getCilindraje() {

@@ -14,4 +14,6 @@ public interface Vigilante {
 
     boolean sacarVehiculo(Vehiculo tipoVehiculo, int cantidadActual);
 
+    long[] calcularDiasHoras(long horas);
+
 }

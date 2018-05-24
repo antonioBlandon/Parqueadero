@@ -2,8 +2,8 @@ package co.com.ceiba.parqueadero.model;
 
 public class Carro extends Vehiculo {
 
-    public Carro(String placa, long fechaIngreso, long fechaSalida, int tiempoEnParqueadero, double valorApagarParqueadero) {
-        super(placa, fechaIngreso, fechaSalida, tiempoEnParqueadero, valorApagarParqueadero);
+    public Carro(String placa, long fechaIngreso, long fechaSalida, long horasEnParqueadero, long diasEnParqueadero, double valorApagarParqueadero) {
+        super(placa, fechaIngreso, fechaSalida, horasEnParqueadero, diasEnParqueadero, valorApagarParqueadero);
     }
 
 }

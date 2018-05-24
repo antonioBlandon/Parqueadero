@@ -5,14 +5,16 @@ public class Vehiculo {
     private String placa;
     private long fechaIngreso;
     private long fechaSalida;
-    private int tiempoEnParqueadero;
+    private long horasEnParqueadero;
+    private long diasEnParqueadero;
     private double valorApagarParqueadero;
 
-    public Vehiculo(String placa, long fechaIngreso, long fechaSalida, int tiempoEnParqueadero, double valorApagarParqueadero) {
+    public Vehiculo(String placa, long fechaIngreso, long fechaSalida, long horasEnParqueadero, long diasEnParqueadero, double valorApagarParqueadero) {
         this.placa = placa;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
-        this.tiempoEnParqueadero = tiempoEnParqueadero;
+        this.horasEnParqueadero = horasEnParqueadero;
+        this.diasEnParqueadero = diasEnParqueadero;
         this.valorApagarParqueadero = valorApagarParqueadero;
     }
 
@@ -40,12 +42,20 @@ public class Vehiculo {
         this.fechaSalida = fechaSalida;
     }
 
-    public int getTiempoEnParqueadero() {
-        return tiempoEnParqueadero;
+    public long getHorasEnParqueadero() {
+        return horasEnParqueadero;
     }
 
-    public void setTiempoEnParqueadero(int tiempoEnParqueadero) {
-        this.tiempoEnParqueadero = tiempoEnParqueadero;
+    public void setHorasEnParqueadero(long horasEnParqueadero) {
+        this.horasEnParqueadero = horasEnParqueadero;
+    }
+
+    public long getDiasEnParqueadero() {
+        return diasEnParqueadero;
+    }
+
+    public void setDiasEnParqueadero(long diasEnParqueadero) {
+        this.diasEnParqueadero = diasEnParqueadero;
     }
 
     public double getValorApagarParqueadero() {
@@ -60,9 +70,10 @@ public class Vehiculo {
     public String toString() {
         return "Vehiculo{" +
                 "placa='" + placa + '\'' +
-                ", fechaIngreso='" + fechaIngreso + '\'' +
-                ", fechaSalida='" + fechaSalida + '\'' +
-                ", tiempoEnParqueadero=" + tiempoEnParqueadero +
+                ", fechaIngreso=" + fechaIngreso +
+                ", fechaSalida=" + fechaSalida +
+                ", horasEnParqueadero=" + horasEnParqueadero +
+                ", diasEnParqueadero=" + diasEnParqueadero +
                 ", valorApagarParqueadero=" + valorApagarParqueadero +
                 '}';
     }

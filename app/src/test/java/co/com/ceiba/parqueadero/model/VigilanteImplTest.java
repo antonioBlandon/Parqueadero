@@ -94,12 +94,48 @@ public class VigilanteImplTest {
         //Act
         long horasEnParqueadero = vigilante.calcularTiempoVehiculoParqueadero(vehiculo.getFechaIngreso(),vehiculo.getFechaSalida());
         //Assert
-        Assert.assertEquals(21,horasEnParqueadero);
+        Assert.assertEquals(27,horasEnParqueadero);
     }
 
+    //Si el carro permaneció un día y 3 horas se debe cobrar 11.000
     @Test
-    public void testCobrarParqueadero(){
+    public void testCobrarParqueaderoCarro(){
+        //Arrange
+        Vehiculo vehiculo = aVehicle()
+                .withTiempoEnParqueadero(3,1).buildCar();
+        //Act
+        long cobro = vigilante.cobrarParqueadero(vehiculo);
+        //Assert
+        Assert.assertEquals(11000,cobro);
+    }
 
+    //Si la moto permaneció un 10 horas y es de 650CC se cobra 6.000
+    @Test
+    public void testCobrarParqueaderoMotoConAltoCilindraje(){
+        //Arrange
+        Vehiculo vehiculo = aVehicle()
+                .withFechaDeSalida(1389934000) //Fri Jan 16 1970 21:05:34 GMT-0500
+                .withTiempoEnParqueadero(0,1)
+                .buildMotoWithCilindraje(650);
+        //Act
+        long cobro = vigilante.cobrarParqueadero(vehiculo);
+        //Assert
+        Assert.assertEquals(6000,cobro);
+    }
+
+    //Si la moto permaneció un 10 horas se cobra 4.000
+    @Test
+    public void testCobrarParqueaderoMotoConBajoCilindraje(){
+        //Arrange
+        Vehiculo vehiculo = aVehicle()
+                .withFechaDeSalida(1389934000) //Fri Jan 16 1970 21:05:34 GMT-0500
+                .withTiempoEnParqueadero(0,1)
+                .buildMotoWithCilindraje(250);
+        //Act
+        System.out.println(vehiculo.toString());
+        long cobro = vigilante.cobrarParqueadero(vehiculo);
+        //Assert
+        Assert.assertEquals(4000,cobro);
     }
 
     @Test
@@ -147,8 +183,13 @@ public class VigilanteImplTest {
     }
 
     @Test
-    public void testObtenerCantidadDeDiasYHoras(){
-
+    public void testCalcularDiasHoras(){
+        //Arrange
+        Vehiculo vehiculo = aVehicle().build();
+        //Act
+        long[] diasHoras = vigilante.calcularDiasHoras(35);
+        //Assert
+        Assert.assertArrayEquals(new long[]{2,0},diasHoras);
     }
 
 }
