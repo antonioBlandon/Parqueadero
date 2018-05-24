@@ -4,7 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static co.com.ceiba.parqueadero.model.ParqueaderoBuilder.aParking;
+import java.util.Calendar;
 
 public class VigilanteImplTest {
 
@@ -16,47 +17,74 @@ public class VigilanteImplTest {
     }
 
     @Test
-    public void testValidarCantidadCarros(){
+    public void testValidarCantidadCarrosMenor(){
         //Arrange
-        int cantidadCarrosActual = 19;
+        Parqueadero parqueadero = aParking().build();
         //Act
-        boolean puedeIngresar = vigilante.validarCantidadCarros(cantidadCarrosActual);
+        boolean puedeIngresar = vigilante.validarCantidadCarros(parqueadero.getCantidadCarros());
         //Assert
         Assert.assertEquals(true,puedeIngresar);
     }
 
     @Test
-    public void testValidarCantidadCarros1(){
+    public void testValidarCantidadCarrosMayor(){
         //Arrange
-        int cantidadCarrosActual = 20;
+        Parqueadero parqueadero = aParking().withLimitCar(20).build();
         //Act
-        boolean puedeIngresar = vigilante.validarCantidadCarros(cantidadCarrosActual);
+        boolean puedeIngresar = vigilante.validarCantidadCarros(parqueadero.getCantidadCarros());
         //Assert
         Assert.assertEquals(false,puedeIngresar);
     }
 
     @Test
-    public void testValidarCantidadMotos(){
+    public void testValidarCantidadMotosMenor(){
         //Arrange
-        int cantidadMotosActual = 9;
+        Parqueadero parqueadero = aParking().build();
         //Act
-        boolean puedeIngresar = vigilante.validarCantidadMotos(cantidadMotosActual);
+        boolean puedeIngresar = vigilante.validarCantidadMotos(parqueadero.getCantidadMotos());
         //Assert
         Assert.assertEquals(true,puedeIngresar);
     }
 
     @Test
-    public void testValidarCantidadMotos1(){
+    public void testValidarCantidadMotosMayor(){
         //Arrange
-        int cantidadMotosActual = 10;
+        Parqueadero parqueadero = aParking().withLimitMoto(10).build();
         //Act
-        boolean puedeIngresar = vigilante.validarCantidadMotos(cantidadMotosActual);
+        boolean puedeIngresar = vigilante.validarCantidadMotos(parqueadero.getCantidadMotos());
         //Assert
         Assert.assertEquals(true,puedeIngresar);
     }
 
     @Test
-    public void testValidarPlaca(){
+    public void testValidarPlacaConAInicial(){
+        /*//Arrange
+        String placa = "ABC123";
+        long fechaIngreso = Calendar.getInstance().getTimeInMillis();
+        //Act
+        boolean puedeIngresar = vigilante.validarPlaca(placa,fechaIngreso);
+        //Assert
+        Assert.assertEquals(true,puedeIngresar);*/
+    }
+
+    @Test
+    public void testValidarPlacaSinAInicial(){
+        //Arrange
+        String placa = "BAC123";
+        long fechaIngreso = Calendar.getInstance().getTimeInMillis();
+        //Act
+        boolean puedeIngresar = vigilante.validarPlaca(placa,fechaIngreso);
+        //Assert
+        Assert.assertEquals(true,puedeIngresar);
+    }
+
+    @Test
+    public void testValidarPlacaConAInicialDiaValido(){
+
+    }
+
+    @Test
+    public void testValidarPlacaConAInicialDiaInvalido(){
 
     }
 

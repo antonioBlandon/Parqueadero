@@ -21,7 +21,8 @@ public class VigilanteImpl implements Vigilante {
     @Override
     public boolean validarPlaca(String placa, long fechaIngreso) {
 
-        if (placa.contains("A")) {
+        String primeraLetra = placa.substring(0,1);
+        if (primeraLetra.equals("A")) {
             int lunes = 2;
             int domingo = 1;
             Calendar calendar = Calendar.getInstance();
