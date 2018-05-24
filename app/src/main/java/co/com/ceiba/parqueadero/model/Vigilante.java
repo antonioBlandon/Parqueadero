@@ -12,6 +12,6 @@ public interface Vigilante {
 
     long cobrarParqueadero(Vehiculo vehiculo);
 
-    boolean sacarVehiculo(Vehiculo tipoVehiculo);
+    boolean sacarVehiculo(Vehiculo tipoVehiculo, int cantidadActual);
 
 }

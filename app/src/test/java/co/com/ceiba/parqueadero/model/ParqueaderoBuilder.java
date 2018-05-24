@@ -7,8 +7,8 @@ public class ParqueaderoBuilder {
     private int cantidadMotos;
 
     public ParqueaderoBuilder() {
-        cantidadCarros = 19;
-        cantidadMotos = 9;
+        cantidadCarros = 0;
+        cantidadMotos = 0;
     }
 
     public ParqueaderoBuilder withLimitCar(int cantidadCarros){

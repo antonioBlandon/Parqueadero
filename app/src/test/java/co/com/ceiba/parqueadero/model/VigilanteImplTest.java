@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static co.com.ceiba.parqueadero.model.ParqueaderoBuilder.aParking;
+import static co.com.ceiba.parqueadero.model.VehiculoBuilder.aVehicle;
 import java.util.Calendar;
 
 public class VigilanteImplTest {
@@ -99,8 +100,47 @@ public class VigilanteImplTest {
     }
 
     @Test
-    public void testSacarVehiculo(){
+    public void testSacarCarro(){
+        //Arrange
+        Carro carro = aVehicle().buildCar();
+        Parqueadero parqueadero = aParking().withLimitCar(20).build();
+        //Act
+        boolean conVehiculos = vigilante.sacarVehiculo(carro,parqueadero.getCantidadCarros());
+        //Assert
+        Assert.assertEquals(true,conVehiculos);
+    }
 
+    @Test
+    public void testSacarMoto(){
+        //Arrange
+        Moto moto = aVehicle().buildMoto();
+        Parqueadero parqueadero = aParking().withLimitMoto(10).build();
+        //Act
+        boolean conVehiculos = vigilante.sacarVehiculo(moto,parqueadero.getCantidadMotos());
+        //Assert
+        Assert.assertEquals(true,conVehiculos);
+    }
+
+    @Test
+    public void testSacarCarroSinTenerCarros(){
+        //Arrange
+        Carro carro = aVehicle().buildCar();
+        Parqueadero parqueadero = aParking().build();
+        //Act
+        boolean conVehiculos = vigilante.sacarVehiculo(carro,parqueadero.getCantidadCarros());
+        //Assert
+        Assert.assertEquals(false,conVehiculos);
+    }
+
+    @Test
+    public void testSacarMotoSinTenerMotos(){
+        //Arrange
+        Moto moto = aVehicle().buildMoto();
+        Parqueadero parqueadero = aParking().build();
+        //Act
+        boolean conVehiculos = vigilante.sacarVehiculo(moto,parqueadero.getCantidadMotos());
+        //Assert
+        Assert.assertEquals(false,conVehiculos);
     }
 
     @Test

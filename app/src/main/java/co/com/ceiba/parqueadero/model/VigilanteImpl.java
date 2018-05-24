@@ -65,20 +65,17 @@ public class VigilanteImpl implements Vigilante {
     }
 
     @Override
-    public boolean sacarVehiculo(Vehiculo vehiculo) {
+    public boolean sacarVehiculo(Vehiculo vehiculo, int cantidadActual) {
 
-        int cantidad = 0;
         if (vehiculo instanceof Moto) {
-            cantidad = Parqueadero.getInstance().getCantidadMotos();
-            if (cantidad > 0) {
-                Parqueadero.getInstance().setCantidadMotos(cantidad - 1);
+            if (cantidadActual > 0) {
+                Parqueadero.getInstance().setCantidadMotos(cantidadActual - 1);
                 return true;
             }
             return false;
         } else if (vehiculo instanceof Carro) {
-            cantidad = Parqueadero.getInstance().getCantidadCarros();
-            if (cantidad > 0) {
-                Parqueadero.getInstance().setCantidadCarros(cantidad - 1);
+            if (cantidadActual > 0) {
+                Parqueadero.getInstance().setCantidadCarros(cantidadActual - 1);
                 return true;
             }
             return false;
