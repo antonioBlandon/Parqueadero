@@ -47,7 +47,7 @@ public class VigilanteImpl implements Vigilante {
     @Override
     public long cobrarParqueadero(Vehiculo vehiculo) {
 
-        long valor;
+        long valor = 0;
         if (vehiculo instanceof Moto) {
             int cilindraje = ((Moto) vehiculo).getCilindraje();
             valor = (vehiculo.getDiasEnParqueadero() * Parqueadero.VALOR_DIA_MOTO)
@@ -55,14 +55,11 @@ public class VigilanteImpl implements Vigilante {
             if (cilindraje > Parqueadero.TOPE_CILINDRAJE) {
                 valor = valor + Parqueadero.ADICION_CILINDRAJE;
             }
-            return valor;
         } else if (vehiculo instanceof Carro) {
             valor = (vehiculo.getDiasEnParqueadero() * Parqueadero.VALOR_DIA_CARRO)
                     + (vehiculo.getHorasEnParqueadero() * Parqueadero.VALOR_HORA_CARRO);
-            return valor;
-        } else {
-            return 0;
         }
+        return valor;
 
     }
 
