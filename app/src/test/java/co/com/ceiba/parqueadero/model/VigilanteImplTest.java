@@ -150,7 +150,7 @@ public class VigilanteImplTest {
         Carro carro = aVehicle().buildCar();
         Parqueadero parqueadero = aParking().withLimitCar(20).build();
         //Act
-        boolean conVehiculos = vigilante.sacarVehiculo(carro,parqueadero.getCantidadCarros());
+        boolean conVehiculos = vigilante.sacarVehiculo(this,true);
         //Assert
         Assert.assertEquals(true,conVehiculos);
     }

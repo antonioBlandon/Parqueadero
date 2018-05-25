@@ -1,7 +1,6 @@
 package co.com.ceiba.parqueadero.entities;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.Calendar;
 
@@ -57,8 +56,8 @@ public class VigilanteImpl implements Vigilante {
     @Override
     public long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida) {
         long tiempo = fechaSalida - fechaIngreso;
-        double tiempoEnSegundos = tiempo / 1000;
-        return (new Double(Math.ceil(tiempoEnSegundos / 3600))).longValue();
+        double tiempoEnSegundos = tiempo / 1_000;
+        return (Double.valueOf(Math.ceil(tiempoEnSegundos / 3600))).longValue();
     }
 
     @Override

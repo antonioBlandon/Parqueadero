@@ -16,7 +16,6 @@ import java.util.Calendar;
 
 import co.com.ceiba.parqueadero.R;
 import co.com.ceiba.parqueadero.entities.Moto;
-import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.Vigilante;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
@@ -102,10 +101,10 @@ public class ActivityCobrar extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         View viewResumen = getLayoutInflater().inflate(R.layout.content_dialog_factura, null);
 
-        TextView tvPlaca = (TextView) viewResumen.findViewById(R.id.text_view_resumen_placa);
-        tvPlaca.setText(vehiculo.getPlaca());
-        TextView tvFechaIngreso = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_ingreso);
-        tvFechaIngreso.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaIngreso()));
+        TextView tvPlacaResumen = (TextView) viewResumen.findViewById(R.id.text_view_resumen_placa);
+        tvPlacaResumen.setText(vehiculo.getPlaca());
+        TextView tvFechaIngresoResumen = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_ingreso);
+        tvFechaIngresoResumen.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaIngreso()));
         TextView tvFechaSalida = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_salida);
         tvFechaSalida.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaSalida()));
         TextView tvTiempoParqueadero = (TextView) viewResumen.findViewById(R.id.text_view_resumen_tiempo);
@@ -113,9 +112,9 @@ public class ActivityCobrar extends AppCompatActivity {
         TextView tvCosto = (TextView) viewResumen.findViewById(R.id.text_view_resumen_valor_a_pagar);
         tvCosto.setText(Double.toString(vehiculo.getValorApagarParqueadero()));
 
-        TextView tvCilindraje = (TextView) viewResumen.findViewById(R.id.text_view_resumen_cilindraje);
+        TextView tvCilindrajeResumen = (TextView) viewResumen.findViewById(R.id.text_view_resumen_cilindraje);
         if(vehiculo instanceof Moto){
-            tvCilindraje.setText(Integer.toString(((Moto) vehiculo).getCilindraje()));
+            tvCilindrajeResumen.setText(Integer.toString(((Moto) vehiculo).getCilindraje()));
         }
 
         dialog.setView(viewResumen).setPositiveButton(android.R.string.ok,null);
