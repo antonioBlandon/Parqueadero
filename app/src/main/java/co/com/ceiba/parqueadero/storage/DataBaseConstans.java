@@ -5,7 +5,7 @@ public class DataBaseConstans {
     public static final int VERSION_DB = 1;
     public static final String DB_NAME = "parqueadero";
 
-    public static final String CREATE = "CREATE TABLE ";
+    public static final String CREATE = "CREATE TABLE IF NOT EXISTS ";
     public static final String ID_AUTOINCREMENT = " ( ID INTEGER PRIMARY KEY AUTOINCREMENT,";
     public static final String INTEGER = " INTEGER,";
     public static final String TEXT = " TEXT,";
@@ -31,7 +31,7 @@ public class DataBaseConstans {
     }
 
     public class TablaParqueadero {
-        public static final String TABLE_NAME = "vehiculo";
+        public static final String TABLE_NAME = "parqueadero";
         public static final String CANTIDAD_CARROS = "cantidad_carros";
         public static final String CANTIDAD_MOTOS = "cantidad_motos";
         public static final String CREATE_TABLE = CREATE +

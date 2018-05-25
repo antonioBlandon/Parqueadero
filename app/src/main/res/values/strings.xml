@@ -15,4 +15,8 @@
     <string name="cilindraje">Ingresar cilindraje en CC</string>
     <string name="vehiculo_no_autorizado">El vehiculo no tiene autorización para ingresar</string>
     <string name="ingreso_exitoso">El vehículo ingreso exitosamente</string>
+    <string name="consultar">Consultar</string>
+    <string name="error_registro">Se produjo un error mientras se registraba el ingreso del vehículo</string>
+    <string name="error_read_data_base">Ocurrió un error almomento de la consulta. Intente mas tarde nuevamente</string>
+    <string name="placa_no_existe">La placa no existe o el vehículo ya salió del parqueadero</string>
 </resources>

@@ -20,7 +20,7 @@ public class DataBaseVehiculoManager {
 
     }
 
-    public void create(Vehiculo vehiculo) {
+    public long create(Vehiculo vehiculo) {
 
         ContentValues contentValues = new ContentValues();
 
@@ -28,31 +28,34 @@ public class DataBaseVehiculoManager {
         contentValues.put(DataBaseConstans.TablaVehiculo.FECHA_INGRESO, vehiculo.getFechaIngreso());
 
         if (vehiculo instanceof Moto) {
-            contentValues.put(DataBaseConstans.TablaVehiculo.PLACA, ((Moto) vehiculo).getCilindraje());
+            contentValues.put(DataBaseConstans.TablaVehiculo.CILINDRAJE, ((Moto) vehiculo).getCilindraje());
         }
 
-        db.insert(DataBaseConstans.TablaVehiculo.TABLE_NAME, null, contentValues);
+        return db.insert(DataBaseConstans.TablaVehiculo.TABLE_NAME, null, contentValues);
 
     }
 
-    public Vehiculo read(Vehiculo vehiculo) {
+    public Vehiculo read(String placa) {
 
-        String selection = DataBaseConstans.TablaVehiculo.VALOR_PAGADO + " = ? AND " + DataBaseConstans.TablaVehiculo.VALOR_PAGADO + " = ? ";
+        String selection = DataBaseConstans.TablaVehiculo.PLACA + " = '" + placa
+                + "' AND " + DataBaseConstans.TablaVehiculo.FECHA_SALIDA + " IS NULL ";
         Cursor cursor = db.query(DataBaseConstans.TablaVehiculo.TABLE_NAME, null, selection,
-                new String[]{vehiculo.getPlaca(), Long.toString(vehiculo.getFechaIngreso())}, null, null, null);
+                null, null, null, null);
 
         if(cursor.moveToFirst()){
 
             Vehiculo retorno = new Vehiculo();
-            if(cursor.getString(5) != null){
+            if(cursor.getString(4) != null){
                 retorno =  new Moto();
-                ((Moto) retorno).setCilindraje(cursor.getInt(5));
+                ((Moto) retorno).setCilindraje(cursor.getInt(4));
             }
             retorno.setPlaca(cursor.getString(1));
             retorno.setFechaIngreso(Long.valueOf(cursor.getString(2)));
             cursor.close();
             return retorno;
 
+        }else if(cursor.getCount() == 0){
+            return new Vehiculo();
         }
 
         cursor.close();
