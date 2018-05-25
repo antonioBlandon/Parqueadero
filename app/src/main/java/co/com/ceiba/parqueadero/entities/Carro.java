@@ -6,4 +6,6 @@ public class Carro extends Vehiculo {
         super(placa, fechaIngreso, fechaSalida, horasEnParqueadero, diasEnParqueadero, valorApagarParqueadero);
     }
 
+    public Carro(){}
+
 }

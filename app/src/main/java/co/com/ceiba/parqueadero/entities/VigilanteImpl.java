@@ -1,8 +1,25 @@
 package co.com.ceiba.parqueadero.entities;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.util.Calendar;
 
+import co.com.ceiba.parqueadero.storage.DataBaseConstans;
+import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
+
 public class VigilanteImpl implements Vigilante {
+
+    static VigilanteImpl reference;
+
+    public static VigilanteImpl getInstance(){
+        if (reference == null){
+            reference = new VigilanteImpl();
+        }
+        return reference;
+    }
+
+    public VigilanteImpl(){}
 
     @Override
     public boolean validarCantidadCarros(int cantidadCarrosActual) {
@@ -40,8 +57,8 @@ public class VigilanteImpl implements Vigilante {
     @Override
     public long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida) {
         long tiempo = fechaSalida - fechaIngreso;
-        long tiempoEnSegundos = tiempo / 1000;
-        return tiempoEnSegundos / 3600;
+        double tiempoEnSegundos = tiempo / 1000;
+        return (new Double(Math.ceil(tiempoEnSegundos / 3600))).longValue();
     }
 
     @Override
@@ -64,21 +81,22 @@ public class VigilanteImpl implements Vigilante {
     }
 
     @Override
-    public boolean sacarVehiculo(Vehiculo vehiculo, int cantidadActual) {
+    public boolean sacarVehiculo(Context context, boolean isCar) {
 
-        if (vehiculo instanceof Moto) {
-            if (cantidadActual > 0) {
-                Parqueadero.getInstance().setCantidadMotos(cantidadActual - 1);
-                return true;
-            }
-            return false;
-        } else if (vehiculo instanceof Carro) {
-            if (cantidadActual > 0) {
-                Parqueadero.getInstance().setCantidadCarros(cantidadActual - 1);
+        DataBaseParqueaderoManager db = new DataBaseParqueaderoManager(context);
+        if (isCar) {
+            int cantidadMotos = db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS);
+            if (cantidadMotos>0){
+                db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, cantidadMotos-1);
                 return true;
             }
             return false;
         } else {
+            int cantidadCarros = db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS);
+            if (cantidadCarros > 0) {
+                db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, cantidadCarros-1);
+                return true;
+            }
             return false;
         }
 

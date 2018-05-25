@@ -1,6 +1,7 @@
 package co.com.ceiba.parqueadero.cobrar;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -11,12 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import co.com.ceiba.parqueadero.R;
 import co.com.ceiba.parqueadero.entities.Moto;
+import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
+import co.com.ceiba.parqueadero.entities.Vigilante;
+import co.com.ceiba.parqueadero.entities.VigilanteImpl;
 import co.com.ceiba.parqueadero.storage.DataBaseVehiculoManager;
+import co.com.ceiba.parqueadero.utils.Utils;
 
 public class ActivityCobrar extends AppCompatActivity {
 
@@ -41,15 +46,20 @@ public class ActivityCobrar extends AppCompatActivity {
         tvFechaIngreso = (TextView) findViewById(R.id.text_view_cobrar_fecha_ingreso);
 
         etBuscarPlaca = (EditText) findViewById(R.id.edit_text_cobrar_placa);
-        etBuscarPlaca.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        etBuscarPlaca.setFilters(new InputFilter[]{new InputFilter.AllCaps(),new InputFilter.LengthFilter(6)});
 
         Button btnBuscarPlaca = (Button) findViewById(R.id.btn_cobrar_buscar_placa);
         btnBuscarPlaca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
-                vehiculo = dataBase.read(etBuscarPlaca.getText().toString());
-                setUpInfo();
+                String placa = etBuscarPlaca.getText().toString();
+                if (!placa.isEmpty()) {
+                    DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
+                    vehiculo = dataBase.read(placa);
+                    setUpInfo();
+                } else {
+                    Toast.makeText(context, getString(R.string.placa_vacia), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -57,14 +67,67 @@ public class ActivityCobrar extends AppCompatActivity {
         btnCobrarParqueadero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cobrar();
+                vehiculo.setValorApagarParqueadero(cobrar());
+                sacarVehiculo();
+                guardarDatos();
+                actualizarVista();
+                lanzarResumen();
             }
         });
 
     }
 
-    public void cobrar() {
-        //Método en desarrollo
+    public void actualizarVista(){
+        Toast.makeText(context, getString(R.string.cobro_exitoso), Toast.LENGTH_SHORT).show();
+        etBuscarPlaca.setText("");
+        llInfoVehiculo.setVisibility(View.GONE);
+    }
+
+    public long cobrar() {
+        Vigilante vigilante = VigilanteImpl.getInstance();
+        vehiculo.setFechaSalida(Calendar.getInstance().getTimeInMillis());
+        long tiempoParqueadero = vigilante.calcularTiempoVehiculoParqueadero(vehiculo.getFechaIngreso(), vehiculo.getFechaSalida());
+        long[] diasHoras = vigilante.calcularDiasHoras(tiempoParqueadero);
+        vehiculo.setDiasEnParqueadero(diasHoras[0]);
+        vehiculo.setHorasEnParqueadero(diasHoras[1]);
+        return vigilante.cobrarParqueadero(vehiculo);
+    }
+
+    public void guardarDatos() {
+        DataBaseVehiculoManager db = new DataBaseVehiculoManager(context);
+        db.update(vehiculo);
+    }
+
+    public void lanzarResumen(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        View viewResumen = getLayoutInflater().inflate(R.layout.content_dialog_factura, null);
+
+        TextView tvPlaca = (TextView) viewResumen.findViewById(R.id.text_view_resumen_placa);
+        tvPlaca.setText(vehiculo.getPlaca());
+        TextView tvFechaIngreso = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_ingreso);
+        tvFechaIngreso.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaIngreso()));
+        TextView tvFechaSalida = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_salida);
+        tvFechaSalida.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaSalida()));
+        TextView tvTiempoParqueadero = (TextView) viewResumen.findViewById(R.id.text_view_resumen_tiempo);
+        tvTiempoParqueadero.setText(Long.toString(vehiculo.getDiasEnParqueadero()*24 + vehiculo.getHorasEnParqueadero()));
+        TextView tvCosto = (TextView) viewResumen.findViewById(R.id.text_view_resumen_valor_a_pagar);
+        tvCosto.setText(Double.toString(vehiculo.getValorApagarParqueadero()));
+
+        TextView tvCilindraje = (TextView) viewResumen.findViewById(R.id.text_view_resumen_cilindraje);
+        if(vehiculo instanceof Moto){
+            tvCilindraje.setText(Integer.toString(((Moto) vehiculo).getCilindraje()));
+        }
+
+        dialog.setView(viewResumen).setPositiveButton(android.R.string.ok,null);
+        dialog.create().show();
+    }
+
+    public void sacarVehiculo() {
+        if (vehiculo instanceof Moto) {
+            VigilanteImpl.getInstance().sacarVehiculo(context,true);
+        } else {
+            VigilanteImpl.getInstance().sacarVehiculo(context,false);
+        }
     }
 
     public void setUpInfo() {
@@ -78,10 +141,9 @@ public class ActivityCobrar extends AppCompatActivity {
             Toast.makeText(context, getString(R.string.placa_no_existe), Toast.LENGTH_SHORT).show();
             return;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm:SS");
         llInfoVehiculo.setVisibility(View.VISIBLE);
         tvPlaca.setText(vehiculo.getPlaca());
-        tvFechaIngreso.setText(sdf.format(vehiculo.getFechaIngreso()));
+        tvFechaIngreso.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaIngreso()));
         if (vehiculo instanceof Moto) {
             tvCilindraje.setText(Integer.toString(((Moto) vehiculo).getCilindraje()));
         }

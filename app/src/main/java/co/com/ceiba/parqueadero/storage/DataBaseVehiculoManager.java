@@ -5,10 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import co.com.ceiba.parqueadero.entities.Carro;
 import co.com.ceiba.parqueadero.entities.Moto;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 
-public class DataBaseVehiculoManager {
+public class DataBaseVehiculoManager{
 
     private SQLiteDatabase db;
     private DataBaseHelper dBhelper;
@@ -44,7 +45,7 @@ public class DataBaseVehiculoManager {
 
         if(cursor.moveToFirst()){
 
-            Vehiculo retorno = new Vehiculo();
+            Vehiculo retorno = new Carro();
             if(cursor.getString(4) != null){
                 retorno =  new Moto();
                 ((Moto) retorno).setCilindraje(cursor.getInt(4));
@@ -63,22 +64,18 @@ public class DataBaseVehiculoManager {
 
     }
 
-    public void update(Vehiculo vehiculo) {
+    public int update(Vehiculo vehiculo) {
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(DataBaseConstans.TablaVehiculo.VALOR_PAGADO, vehiculo.getValorApagarParqueadero());
         contentValues.put(DataBaseConstans.TablaVehiculo.FECHA_SALIDA, vehiculo.getFechaSalida());
 
-        String where = DataBaseConstans.TablaVehiculo.VALOR_PAGADO + " = ? AND " + DataBaseConstans.TablaVehiculo.VALOR_PAGADO + " = ? ";
-        db.update(DataBaseConstans.TablaVehiculo.TABLE_NAME,
+        String where = DataBaseConstans.TablaVehiculo.PLACA + " = ? AND " + DataBaseConstans.TablaVehiculo.FECHA_INGRESO + " = ? ";
+        return db.update(DataBaseConstans.TablaVehiculo.TABLE_NAME,
                 contentValues,
                 where,
                 new String[]{vehiculo.getPlaca(), Long.toString(vehiculo.getFechaIngreso())});
-
-    }
-
-    public void delete(Vehiculo vehiculo) {
 
     }
 

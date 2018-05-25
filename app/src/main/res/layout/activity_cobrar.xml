@@ -15,10 +15,7 @@
 
         <EditText
             android:id="@+id/edit_text_cobrar_placa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapCharacters"
-            android:hint="@string/ingresar_placa"/>
+            style="@style/EditTextIngresarPlaca"/>
 
     </android.support.design.widget.TextInputLayout>
 

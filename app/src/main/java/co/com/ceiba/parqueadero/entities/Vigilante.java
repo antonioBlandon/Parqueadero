@@ -1,5 +1,7 @@
 package co.com.ceiba.parqueadero.entities;
 
+import android.content.Context;
+
 public interface Vigilante {
 
     boolean validarCantidadCarros(int cantidadCarrosActual);
@@ -12,7 +14,7 @@ public interface Vigilante {
 
     long cobrarParqueadero(Vehiculo vehiculo);
 
-    boolean sacarVehiculo(Vehiculo tipoVehiculo, int cantidadActual);
+    boolean sacarVehiculo(Context context, boolean isCar);
 
     long[] calcularDiasHoras(long horas);
 

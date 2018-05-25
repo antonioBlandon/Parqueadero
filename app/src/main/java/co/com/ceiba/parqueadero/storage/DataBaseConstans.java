@@ -14,7 +14,7 @@ public class DataBaseConstans {
     public static final String ID = "id";
 
     public class TablaVehiculo {
-        public static final String TABLE_NAME = "vehiculo";
+        public static final String TABLE_NAME = "vehiculo_table";
         public static final String PLACA = "placa";
         public static final String FECHA_INGRESO = "fecha_ingreso";
         public static final String FECHA_SALIDA = "fecha_salida";
@@ -28,10 +28,13 @@ public class DataBaseConstans {
                 FECHA_SALIDA + INTEGER +
                 CILINDRAJE + INTEGER +
                 VALOR_PAGADO + INTEGER_FINAL;
+
+        private TablaVehiculo(){}
+
     }
 
     public class TablaParqueadero {
-        public static final String TABLE_NAME = "parqueadero";
+        public static final String TABLE_NAME = "parqueadero_table";
         public static final String CANTIDAD_CARROS = "cantidad_carros";
         public static final String CANTIDAD_MOTOS = "cantidad_motos";
         public static final String CREATE_TABLE = CREATE +
@@ -39,6 +42,9 @@ public class DataBaseConstans {
                 ID_AUTOINCREMENT +
                 CANTIDAD_CARROS + INTEGER +
                 CANTIDAD_MOTOS + INTEGER_FINAL;
+
+        private TablaParqueadero(){}
+
     }
 
 }

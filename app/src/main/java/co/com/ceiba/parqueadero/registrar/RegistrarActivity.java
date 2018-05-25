@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,14 +19,15 @@ import co.com.ceiba.parqueadero.cobrar.ActivityCobrar;
 import co.com.ceiba.parqueadero.entities.Moto;
 import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
-import co.com.ceiba.parqueadero.entities.Vigilante;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
+import co.com.ceiba.parqueadero.storage.DataBaseConstans;
+import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
 import co.com.ceiba.parqueadero.storage.DataBaseVehiculoManager;
 
 public class RegistrarActivity extends AppCompatActivity {
 
     private Context context = this;
-    private Vigilante vigilante;
+    private boolean isCar;
 
     private EditText etPlaca;
     private EditText etCilindraje;
@@ -35,26 +37,32 @@ public class RegistrarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar);
 
+        initDataBase();
+
         etCilindraje = (EditText) findViewById(R.id.edit_text_ingresar_cilindraje);
 
         etPlaca = (EditText) findViewById(R.id.edit_text_ingresar_placa);
-        etPlaca.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        etPlaca.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(6)});
 
         Button btnRegistrarIngreso = (Button) findViewById(R.id.btn_ingresar_ingresar_vehiculo);
         btnRegistrarIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vigilante = new VigilanteImpl();
-                boolean tieneCupo = validarCupo(etCilindraje.getText().toString());
-                boolean placaValida = validarPlaca();
-                if (tieneCupo && placaValida) {
-                    validarIngresoExitoso(ingresarVehiculo(etPlaca.getText().toString(), etCilindraje.getText().toString()));
+                String placa = etPlaca.getText().toString();
+                if (!placa.isEmpty()) {
+                    boolean tieneCupo = validarCupo(etCilindraje.getText().toString());
+                    boolean placaValida = validarPlaca(placa);
+                    if (tieneCupo && placaValida) {
+                        validarIngresoExitoso(ingresarVehiculo(placa, etCilindraje.getText().toString()));
+                    }
+                } else {
+                    Toast.makeText(context, getString(R.string.placa_vacia), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         // Set up floating action button
-        FloatingActionButton fabIrAcobrar = (FloatingActionButton) findViewById(R.id.fab_ingresar_ir_a_cobrar);
+        FloatingActionButton fabIrAcobrar = findViewById(R.id.fab_ingresar_ir_a_cobrar);
 
         fabIrAcobrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,17 +87,27 @@ public class RegistrarActivity extends AppCompatActivity {
 
     }
 
+    public void initDataBase() {
+        DataBaseParqueaderoManager dataBase = new DataBaseParqueaderoManager(context);
+        if (!dataBase.validateInit()) {
+            dataBase.create();
+        }
+    }
+
     public boolean validarCupo(String cilindraje) {
-        Parqueadero parqueadero = Parqueadero.getInstance();
+        DataBaseParqueaderoManager db = new DataBaseParqueaderoManager(context);
         if (cilindraje.isEmpty()) {
-            return vigilante.validarCantidadCarros(parqueadero.getCantidadCarros());
+            isCar = true;
+            return VigilanteImpl.getInstance().validarCantidadCarros(db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS));
         } else {
-            return vigilante.validarCantidadMotos(parqueadero.getCantidadMotos());
+            isCar = false;
+            return VigilanteImpl.getInstance().validarCantidadMotos(db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS));
         }
     }
 
     public void validarIngresoExitoso(long id) {
         if (id >= 0) {
+            Parqueadero.getInstance().aumentarCantidadVehiculos(isCar,context);
             Toast.makeText(context, getString(R.string.ingreso_exitoso), Toast.LENGTH_SHORT).show();
             etCilindraje.setText("");
             etPlaca.setText("");
@@ -98,10 +116,10 @@ public class RegistrarActivity extends AppCompatActivity {
         }
     }
 
-    public boolean validarPlaca() {
-        boolean placaValida = vigilante.validarPlaca(etPlaca.getText().toString(), Calendar.getInstance().getTimeInMillis());
+    public boolean validarPlaca(String placa) {
+        boolean placaValida = VigilanteImpl.getInstance().validarPlaca(placa, Calendar.getInstance().getTimeInMillis());
         if (!placaValida) {
-            Toast.makeText(RegistrarActivity.this, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
         }
         return placaValida;
     }
