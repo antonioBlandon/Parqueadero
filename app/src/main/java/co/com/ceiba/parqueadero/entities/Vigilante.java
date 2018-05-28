@@ -1,7 +1,5 @@
 package co.com.ceiba.parqueadero.entities;
 
-import android.content.Context;
-
 public interface Vigilante {
 
     boolean validarCantidadCarros(int cantidadCarrosActual);

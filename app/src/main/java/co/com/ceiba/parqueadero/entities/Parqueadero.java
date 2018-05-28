@@ -1,10 +1,5 @@
 package co.com.ceiba.parqueadero.entities;
 
-import android.content.Context;
-
-import co.com.ceiba.parqueadero.storage.DataBaseConstans;
-import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
-
 public class Parqueadero {
 
     //Tarifas carro
@@ -18,4 +13,6 @@ public class Parqueadero {
 
     public static final int TOPE_CILINDRAJE = 500;
 
+    private Parqueadero() {
+    }
 }

@@ -16,7 +16,6 @@ import java.util.Calendar;
 import co.com.ceiba.parqueadero.R;
 import co.com.ceiba.parqueadero.cobrar.ActivityCobrar;
 import co.com.ceiba.parqueadero.entities.Moto;
-import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
 import co.com.ceiba.parqueadero.storage.DataBaseConstans;

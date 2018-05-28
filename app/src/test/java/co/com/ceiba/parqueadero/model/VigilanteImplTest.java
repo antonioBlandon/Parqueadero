@@ -20,7 +20,7 @@ public class VigilanteImplTest {
 
     @Before
     public void preparaData() {
-        vigilante = new VigilanteImpl();
+        vigilante = VigilanteImpl.getInstance();
     }
 
     @Test

@@ -1,11 +1,6 @@
 package co.com.ceiba.parqueadero.entities;
 
-import android.content.Context;
-
 import java.util.Calendar;
-
-import co.com.ceiba.parqueadero.storage.DataBaseConstans;
-import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
 
 public class VigilanteImpl implements Vigilante {
 
@@ -18,7 +13,8 @@ public class VigilanteImpl implements Vigilante {
         return reference;
     }
 
-    public VigilanteImpl(){}
+    private VigilanteImpl() {
+    }
 
     @Override
     public boolean validarCantidadCarros(int cantidadCarrosActual) {
@@ -56,7 +52,7 @@ public class VigilanteImpl implements Vigilante {
     @Override
     public long calcularTiempoVehiculoParqueadero(long fechaIngreso, long fechaSalida) {
         long tiempo = fechaSalida - fechaIngreso;
-        double tiempoEnSegundos = tiempo / 1_000;
+        double tiempoEnSegundos = (float)tiempo / 1_000;
         return (Double.valueOf(Math.ceil(tiempoEnSegundos / 3600))).longValue();
     }
 
