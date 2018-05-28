@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static co.com.ceiba.parqueadero.model.VehiculoBuilder.aVehicle;
 
-import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.Vigilante;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
