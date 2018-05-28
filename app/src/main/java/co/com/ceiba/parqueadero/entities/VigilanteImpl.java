@@ -80,28 +80,6 @@ public class VigilanteImpl implements Vigilante {
     }
 
     @Override
-    public boolean sacarVehiculo(Context context, boolean isCar) {
-
-        DataBaseParqueaderoManager db = new DataBaseParqueaderoManager(context);
-        if (isCar) {
-            int cantidadMotos = db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS);
-            if (cantidadMotos>0){
-                db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, cantidadMotos-1);
-                return true;
-            }
-            return false;
-        } else {
-            int cantidadCarros = db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS);
-            if (cantidadCarros > 0) {
-                db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, cantidadCarros-1);
-                return true;
-            }
-            return false;
-        }
-
-    }
-
-    @Override
     public long[] calcularDiasHoras(long horas) {
         long dias = 0;
         long[] diasHoras = new long[2];

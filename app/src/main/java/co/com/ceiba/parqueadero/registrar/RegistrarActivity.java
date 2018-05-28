@@ -106,7 +106,12 @@ public class RegistrarActivity extends AppCompatActivity {
 
     public void validarIngresoExitoso(long id) {
         if (id >= 0) {
-            Parqueadero.getInstance().aumentarCantidadVehiculos(isCar,context);
+            DataBaseParqueaderoManager dataBase = new DataBaseParqueaderoManager(context);
+            if (isCar) {
+                dataBase.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, true);
+            } else {
+                dataBase.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, true);
+            }
             Toast.makeText(context, getString(R.string.ingreso_exitoso), Toast.LENGTH_SHORT).show();
             etCilindraje.setText("");
             etPlaca.setText("");

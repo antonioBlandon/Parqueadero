@@ -24,6 +24,14 @@ public class DataBaseParqueaderoManager {
         return db.insert(DataBaseConstans.TablaParqueadero.TABLE_NAME,null,contentValues);
     }
 
+    private int getCurrentValue(String typeVehicle){
+        if(typeVehicle.equals(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS)){
+            return read(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS);
+        }else{
+            return read(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS);
+        }
+    }
+
     public int read(String columna){
         Cursor cursor = db.query(DataBaseConstans.TablaParqueadero.TABLE_NAME,new String[]{columna},null,null,null,null,null);
         int value = 0;
@@ -34,9 +42,14 @@ public class DataBaseParqueaderoManager {
         return value;
     }
 
-    public int update(String key, int value){
+    public int update(String key, boolean ingresarVehiculo){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(key,value);
+        int value = getCurrentValue(key);
+        if(ingresarVehiculo){
+            contentValues.put(key,value+1);
+        }else {//Caso contrario, se está sacando un vehiculo
+            contentValues.put(key,value-1);
+        }
         return db.update(DataBaseConstans.TablaParqueadero.TABLE_NAME,contentValues,null,null);
     }
 

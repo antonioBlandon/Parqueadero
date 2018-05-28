@@ -14,8 +14,6 @@ public interface Vigilante {
 
     long cobrarParqueadero(Vehiculo vehiculo);
 
-    boolean sacarVehiculo(Context context, boolean isCar);
-
     long[] calcularDiasHoras(long horas);
 
 }

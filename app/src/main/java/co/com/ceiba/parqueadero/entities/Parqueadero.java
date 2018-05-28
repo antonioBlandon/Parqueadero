@@ -36,18 +36,6 @@ public class Parqueadero {
         return parqueadero;
     }
 
-    public void aumentarCantidadVehiculos(boolean isCar, Context context) {
-        DataBaseParqueaderoManager db = new DataBaseParqueaderoManager(context);
-        int cantidad = 0;
-        if (isCar) {
-            cantidad = db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS);
-            db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, cantidad+1);
-        } else {
-            cantidad = db.read(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS);
-            db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, cantidad+1);
-        }
-    }
-
     public int getCantidadCarros() {
         return cantidadCarros;
     }

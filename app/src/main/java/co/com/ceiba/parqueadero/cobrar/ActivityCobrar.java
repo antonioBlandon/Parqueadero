@@ -19,6 +19,8 @@ import co.com.ceiba.parqueadero.entities.Moto;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.Vigilante;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
+import co.com.ceiba.parqueadero.storage.DataBaseConstans;
+import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
 import co.com.ceiba.parqueadero.storage.DataBaseVehiculoManager;
 import co.com.ceiba.parqueadero.utils.Utils;
 
@@ -45,7 +47,7 @@ public class ActivityCobrar extends AppCompatActivity {
         tvFechaIngreso = (TextView) findViewById(R.id.text_view_cobrar_fecha_ingreso);
 
         etBuscarPlaca = (EditText) findViewById(R.id.edit_text_cobrar_placa);
-        etBuscarPlaca.setFilters(new InputFilter[]{new InputFilter.AllCaps(),new InputFilter.LengthFilter(6)});
+        etBuscarPlaca.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(6)});
 
         Button btnBuscarPlaca = (Button) findViewById(R.id.btn_cobrar_buscar_placa);
         btnBuscarPlaca.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +78,7 @@ public class ActivityCobrar extends AppCompatActivity {
 
     }
 
-    public void actualizarVista(){
+    public void actualizarVista() {
         Toast.makeText(context, getString(R.string.cobro_exitoso), Toast.LENGTH_SHORT).show();
         etBuscarPlaca.setText("");
         llInfoVehiculo.setVisibility(View.GONE);
@@ -97,7 +99,7 @@ public class ActivityCobrar extends AppCompatActivity {
         db.update(vehiculo);
     }
 
-    public void lanzarResumen(){
+    public void lanzarResumen() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         View viewResumen = getLayoutInflater().inflate(R.layout.content_dialog_factura, null);
 
@@ -108,24 +110,25 @@ public class ActivityCobrar extends AppCompatActivity {
         TextView tvFechaSalida = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_salida);
         tvFechaSalida.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaSalida()));
         TextView tvTiempoParqueadero = (TextView) viewResumen.findViewById(R.id.text_view_resumen_tiempo);
-        tvTiempoParqueadero.setText(Long.toString(vehiculo.getDiasEnParqueadero()*24 + vehiculo.getHorasEnParqueadero()));
+        tvTiempoParqueadero.setText(Long.toString(vehiculo.getDiasEnParqueadero() * 24 + vehiculo.getHorasEnParqueadero()));
         TextView tvCosto = (TextView) viewResumen.findViewById(R.id.text_view_resumen_valor_a_pagar);
         tvCosto.setText(Double.toString(vehiculo.getValorApagarParqueadero()));
 
         TextView tvCilindrajeResumen = (TextView) viewResumen.findViewById(R.id.text_view_resumen_cilindraje);
-        if(vehiculo instanceof Moto){
+        if (vehiculo instanceof Moto) {
             tvCilindrajeResumen.setText(Integer.toString(((Moto) vehiculo).getCilindraje()));
         }
 
-        dialog.setView(viewResumen).setPositiveButton(android.R.string.ok,null);
+        dialog.setView(viewResumen).setPositiveButton(android.R.string.ok, null);
         dialog.create().show();
     }
 
     public void sacarVehiculo() {
+        DataBaseParqueaderoManager db = new DataBaseParqueaderoManager(context);
         if (vehiculo instanceof Moto) {
-            VigilanteImpl.getInstance().sacarVehiculo(context,true);
+            db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, false);
         } else {
-            VigilanteImpl.getInstance().sacarVehiculo(context,false);
+            db.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, false);
         }
     }
 
