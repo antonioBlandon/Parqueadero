@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import co.com.ceiba.parqueadero.utils.Utils;
 
+import static org.mockito.Mockito.mock;
+
 public class UtilTest {
 
     @Test
@@ -14,7 +16,7 @@ public class UtilTest {
         long timeInMillis = 1353934000; //Fri Jan 16 1970 11:05:34 GMT-0500
         String fechaHoraEsperada = "16-01-70 11:05";
         //Act
-        String fechaHora = Utils.getInstance().getDateHourInFormat(timeInMillis);
+        String fechaHora = Utils.getDateHourInFormat(timeInMillis);
         //Assert
         System.out.println(fechaHora);
         System.out.println(fechaHoraEsperada);

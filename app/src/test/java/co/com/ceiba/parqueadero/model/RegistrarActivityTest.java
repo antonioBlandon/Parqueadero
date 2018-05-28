@@ -6,8 +6,12 @@ import org.junit.Test;
 
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.registrar.RegistrarActivity;
+import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
+import co.com.ceiba.parqueadero.storage.DataBaseVehiculoManager;
 
 import static co.com.ceiba.parqueadero.model.VehiculoBuilder.aVehicle;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RegistrarActivityTest {
 
@@ -58,6 +62,13 @@ public class RegistrarActivityTest {
         boolean tieneAutorizacion = registrarActivity.validarPlacaConAutorizacion(vehiculo);
         //Assert
         Assert.assertEquals(true, tieneAutorizacion);
+    }
+
+    @Test
+    public void validarIngresoExitoso(){
+        //Con mockito determinamos el retorno del metodo estatico
+        DataBaseParqueaderoManager dataBaseParqueaderoManager = mock(DataBaseParqueaderoManager.class);
+        registrarActivity.validarIngresoExitoso(0);
     }
 
 }

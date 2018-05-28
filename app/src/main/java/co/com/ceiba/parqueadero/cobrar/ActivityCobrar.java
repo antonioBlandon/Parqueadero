@@ -106,9 +106,9 @@ public class ActivityCobrar extends AppCompatActivity {
         TextView tvPlacaResumen = (TextView) viewResumen.findViewById(R.id.text_view_resumen_placa);
         tvPlacaResumen.setText(vehiculo.getPlaca());
         TextView tvFechaIngresoResumen = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_ingreso);
-        tvFechaIngresoResumen.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaIngreso()));
+        tvFechaIngresoResumen.setText(Utils.getDateHourInFormat(vehiculo.getFechaIngreso()));
         TextView tvFechaSalida = (TextView) viewResumen.findViewById(R.id.text_view_resumen_fecha_salida);
-        tvFechaSalida.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaSalida()));
+        tvFechaSalida.setText(Utils.getDateHourInFormat(vehiculo.getFechaSalida()));
         TextView tvTiempoParqueadero = (TextView) viewResumen.findViewById(R.id.text_view_resumen_tiempo);
         tvTiempoParqueadero.setText(Long.toString(vehiculo.getDiasEnParqueadero() * 24 + vehiculo.getHorasEnParqueadero()));
         TextView tvCosto = (TextView) viewResumen.findViewById(R.id.text_view_resumen_valor_a_pagar);
@@ -145,7 +145,7 @@ public class ActivityCobrar extends AppCompatActivity {
         }
         llInfoVehiculo.setVisibility(View.VISIBLE);
         tvPlaca.setText(vehiculo.getPlaca());
-        tvFechaIngreso.setText(Utils.getInstance().getDateHourInFormat(vehiculo.getFechaIngreso()));
+        tvFechaIngreso.setText(Utils.getDateHourInFormat(vehiculo.getFechaIngreso()));
         if (vehiculo instanceof Moto) {
             tvCilindraje.setText(Integer.toString(((Moto) vehiculo).getCilindraje()));
         }

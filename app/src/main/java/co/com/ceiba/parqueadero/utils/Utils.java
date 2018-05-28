@@ -8,14 +8,7 @@ public class Utils {
 
     private Utils (){}
 
-    public static Utils getInstance(){
-        if(reference == null){
-            reference = new Utils();
-        }
-        return reference;
-    }
-
-    public String getDateHourInFormat(long timeInMillis){
+    public static String getDateHourInFormat(long timeInMillis){
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm");
         return sdf.format(timeInMillis);
     }

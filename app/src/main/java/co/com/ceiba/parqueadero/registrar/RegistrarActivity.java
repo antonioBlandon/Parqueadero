@@ -9,7 +9,15 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.Calendar;
 
@@ -36,8 +44,6 @@ public class RegistrarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresar);
 
-        initDataBase();
-
         etCilindraje = (EditText) findViewById(R.id.edit_text_ingresar_cilindraje);
 
         etPlaca = (EditText) findViewById(R.id.edit_text_ingresar_placa);
@@ -61,6 +67,9 @@ public class RegistrarActivity extends AppCompatActivity {
             }
         });
 
+        initDataBase();
+        getTRM();
+
     }
 
     public Vehiculo crearVehiculo(String placa, String cilindraje) {
@@ -73,6 +82,34 @@ public class RegistrarActivity extends AppCompatActivity {
         vehiculo.setPlaca(placa);
         vehiculo.setFechaIngreso(Calendar.getInstance().getTimeInMillis());
         return vehiculo;
+
+    }
+
+    public void getTRM() {
+
+        final TextView tvTRM = (TextView) findViewById(R.id.text_view_ingresar_trm);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://app.docm.co/prod/Dmservices/Utilities.svc/GetTRM";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        tvTRM.setText("$ " + response.replace("\"", ""));
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                tvTRM.setText(getString(R.string.error_cargando_trm));
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
 
     }
 
@@ -144,7 +181,7 @@ public class RegistrarActivity extends AppCompatActivity {
         return placaValida;
     }
 
-    private boolean validarPlacaExiste(String placa) {
+    public boolean validarPlacaExiste(String placa) {
         DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
         boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
         if (vehiculoExiste) {
