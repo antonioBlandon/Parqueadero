@@ -48,11 +48,12 @@ public class RegistrarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String placa = etPlaca.getText().toString();
+                String cilindraje = etCilindraje.getText().toString();
                 if (!placa.isEmpty()) {
-                    boolean tieneCupo = validarCupo(etCilindraje.getText().toString());
+                    boolean tieneCupo = validarCupo(cilindraje);
                     boolean placaValida = validarPlaca(placa);
                     if (tieneCupo && placaValida) {
-                        validarIngresoExitoso(ingresarVehiculo(placa, etCilindraje.getText().toString()));
+                        validarIngresoExitoso(ingresarVehiculo(placa, cilindraje));
                     }
                 } else {
                     Toast.makeText(context, getString(R.string.placa_vacia), Toast.LENGTH_SHORT).show();
@@ -62,10 +63,10 @@ public class RegistrarActivity extends AppCompatActivity {
 
         // Set up floating action button
         FloatingActionButton fabIrAcobrar = findViewById(R.id.fab_ingresar_ir_a_cobrar);
-
         fabIrAcobrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 startActivity(new Intent(RegistrarActivity.this, ActivityCobrar.class));
             }
         });
@@ -121,11 +122,15 @@ public class RegistrarActivity extends AppCompatActivity {
     }
 
     public boolean validarPlaca(String placa) {
+        DataBaseVehiculoManager dataBase =  new DataBaseVehiculoManager(context);
         boolean placaValida = VigilanteImpl.getInstance().validarPlaca(placa, Calendar.getInstance().getTimeInMillis());
+        boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
         if (!placaValida) {
             Toast.makeText(context, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
+        }else if(vehiculoExiste){
+            Toast.makeText(context, getString(R.string.placa_existe), Toast.LENGTH_LONG).show();
         }
-        return placaValida;
+        return placaValida && !vehiculoExiste;
     }
 
 }
