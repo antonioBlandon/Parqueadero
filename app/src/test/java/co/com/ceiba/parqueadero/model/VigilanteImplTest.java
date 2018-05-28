@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static co.com.ceiba.parqueadero.model.VehiculoBuilder.aVehicle;
 
+import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.Vigilante;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
@@ -17,6 +18,46 @@ public class VigilanteImplTest {
     @Before
     public void preparaData() {
         vigilante = VigilanteImpl.getInstance();
+    }
+
+    @Test
+    public void testValidarCantidadCarrosMenor() {
+        //Arrange
+        int cantidadCarros = 19;
+        //Act
+        boolean puedeIngresar = vigilante.validarCantidadCarros(cantidadCarros);
+        //Assert
+        Assert.assertEquals(true, puedeIngresar);
+    }
+
+    @Test
+    public void testValidarCantidadCarrosMayor() {
+        //Arrange
+        int cantidadCarros = 20;
+        //Act
+        boolean puedeIngresar = vigilante.validarCantidadCarros(cantidadCarros);
+        //Assert
+        Assert.assertEquals(false, puedeIngresar);
+    }
+
+    @Test
+    public void testValidarCantidadMotosMenor() {
+        //Arrange
+        int cantidadMotos = 9;
+        //Act
+        boolean puedeIngresar = vigilante.validarCantidadMotos(cantidadMotos);
+        //Assert
+        Assert.assertEquals(true, puedeIngresar);
+    }
+
+    @Test
+    public void testValidarCantidadMotosMayor() {
+        //Arrange
+        int cantidadMotos = 10;
+        //Act
+        boolean puedeIngresar = vigilante.validarCantidadMotos(cantidadMotos);
+        //Assert
+        Assert.assertEquals(true, puedeIngresar);
     }
 
     @Test
