@@ -19,6 +19,28 @@ public class RegistrarActivityTest {
     }
 
     @Test
+    public void crearCarroNotNull() {
+        //Arrange
+        String placa = "TRE343";
+        String cilindraje = "";
+        //Act
+        Vehiculo vehiculo = registrarActivity.crearVehiculo(placa,cilindraje);
+        //Assert
+        Assert.assertNotNull(vehiculo);
+    }
+
+    @Test
+    public void crearMotoNotNull() {
+        //Arrange
+        String placa = "TRE343";
+        String cilindraje = "490";
+        //Act
+        Vehiculo vehiculo = registrarActivity.crearVehiculo(placa,cilindraje);
+        //Assert
+        Assert.assertNotNull(vehiculo);
+    }
+
+    @Test
     public void validarPlacaConAutorizacionSinAinicial() {
         //Arrange
         Vehiculo vehiculo = aVehicle().withPlacaWithoutAinit("BTA234").build();

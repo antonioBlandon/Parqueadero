@@ -83,7 +83,7 @@ public class RegistrarActivity extends AppCompatActivity {
         }
     }
 
-    public void registrarIngreso(){
+    public void registrarIngreso() {
         String placa = etPlaca.getText().toString();
         String cilindraje = etCilindraje.getText().toString();
         DataBaseVehiculoManager tableVehiculo = new DataBaseVehiculoManager(context);
@@ -99,7 +99,7 @@ public class RegistrarActivity extends AppCompatActivity {
             if (tieneCupo && placaValida && !placaExiste) {
 
                 boolean ingresoExitoso = validarIngresoExitoso(tableVehiculo.create(vehiculo));
-                if(ingresoExitoso){
+                if (ingresoExitoso) {
                     if (isCar) {
                         tableParqueadero.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, true);
                     } else {
@@ -144,10 +144,10 @@ public class RegistrarActivity extends AppCompatActivity {
         return placaValida;
     }
 
-    private boolean validarPlacaExiste(String placa){
+    private boolean validarPlacaExiste(String placa) {
         DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
         boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
-        if(vehiculoExiste){
+        if (vehiculoExiste) {
             Toast.makeText(context, getString(R.string.placa_existe), Toast.LENGTH_LONG).show();
         }
         return vehiculoExiste;
