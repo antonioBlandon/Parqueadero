@@ -15,6 +15,7 @@ import java.util.Calendar;
 
 import co.com.ceiba.parqueadero.R;
 import co.com.ceiba.parqueadero.cobrar.ActivityCobrar;
+import co.com.ceiba.parqueadero.entities.Carro;
 import co.com.ceiba.parqueadero.entities.Moto;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
@@ -46,17 +47,7 @@ public class RegistrarActivity extends AppCompatActivity {
         btnRegistrarIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String placa = etPlaca.getText().toString();
-                String cilindraje = etCilindraje.getText().toString();
-                if (!placa.isEmpty()) {
-                    boolean tieneCupo = validarCupo(cilindraje);
-                    boolean placaValida = validarPlaca(placa);
-                    if (tieneCupo && placaValida) {
-                        validarIngresoExitoso(ingresarVehiculo(placa, cilindraje));
-                    }
-                } else {
-                    Toast.makeText(context, getString(R.string.placa_vacia), Toast.LENGTH_SHORT).show();
-                }
+                registrarIngreso();
             }
         });
 
@@ -72,24 +63,54 @@ public class RegistrarActivity extends AppCompatActivity {
 
     }
 
-    public long ingresarVehiculo(String placa, String cilindraje) {
+    public Vehiculo crearVehiculo(String placa, String cilindraje) {
 
-        DataBaseVehiculoManager db = new DataBaseVehiculoManager(context);
-        Vehiculo vehiculo = new Vehiculo();
+        Vehiculo vehiculo = new Carro();
         if (!cilindraje.isEmpty()) {
             vehiculo = new Moto();
             ((Moto) vehiculo).setCilindraje(Integer.valueOf(cilindraje));
         }
         vehiculo.setPlaca(placa);
         vehiculo.setFechaIngreso(Calendar.getInstance().getTimeInMillis());
-        return db.create(vehiculo);
+        return vehiculo;
 
     }
 
-    public void initDataBase() {
+    private void initDataBase() {
         DataBaseParqueaderoManager dataBase = new DataBaseParqueaderoManager(context);
         if (!dataBase.validateInit()) {
             dataBase.create();
+        }
+    }
+
+    public void registrarIngreso(){
+        String placa = etPlaca.getText().toString();
+        String cilindraje = etCilindraje.getText().toString();
+        DataBaseVehiculoManager tableVehiculo = new DataBaseVehiculoManager(context);
+        DataBaseParqueaderoManager tableParqueadero = new DataBaseParqueaderoManager(context);
+
+        if (!placa.isEmpty()) {
+
+            Vehiculo vehiculo = crearVehiculo(placa, cilindraje);
+            boolean tieneCupo = validarCupo(cilindraje);
+            boolean placaValida = validarPlacaConAutorizacion(vehiculo);
+            boolean placaExiste = validarPlacaExiste(placa);
+
+            if (tieneCupo && placaValida && !placaExiste) {
+
+                boolean ingresoExitoso = validarIngresoExitoso(tableVehiculo.create(vehiculo));
+                if(ingresoExitoso){
+                    if (isCar) {
+                        tableParqueadero.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, true);
+                    } else {
+                        tableParqueadero.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, true);
+                    }
+                }
+
+            }
+
+        } else {
+            Toast.makeText(context, getString(R.string.placa_vacia), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -104,32 +125,32 @@ public class RegistrarActivity extends AppCompatActivity {
         }
     }
 
-    public void validarIngresoExitoso(long id) {
+    public boolean validarIngresoExitoso(long id) {
         if (id >= 0) {
-            DataBaseParqueaderoManager dataBase = new DataBaseParqueaderoManager(context);
-            if (isCar) {
-                dataBase.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, true);
-            } else {
-                dataBase.update(DataBaseConstans.TablaParqueadero.CANTIDAD_MOTOS, true);
-            }
             Toast.makeText(context, getString(R.string.ingreso_exitoso), Toast.LENGTH_SHORT).show();
             etCilindraje.setText("");
             etPlaca.setText("");
-        } else {
-            Toast.makeText(RegistrarActivity.this, getString(R.string.error_registro), Toast.LENGTH_SHORT).show();
+            return true;
         }
+        Toast.makeText(RegistrarActivity.this, getString(R.string.error_registro), Toast.LENGTH_SHORT).show();
+        return false;
     }
 
-    public boolean validarPlaca(String placa) {
-        DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
-        boolean placaValida = VigilanteImpl.getInstance().validarPlaca(placa, Calendar.getInstance().getTimeInMillis());
-        boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
+    public boolean validarPlacaConAutorizacion(Vehiculo vehiculo) {
+        boolean placaValida = VigilanteImpl.getInstance().validarPlaca(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
         if (!placaValida) {
             Toast.makeText(context, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
-        } else if (vehiculoExiste) {
+        }
+        return placaValida;
+    }
+
+    private boolean validarPlacaExiste(String placa){
+        DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
+        boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
+        if(vehiculoExiste){
             Toast.makeText(context, getString(R.string.placa_existe), Toast.LENGTH_LONG).show();
         }
-        return placaValida && !vehiculoExiste;
+        return vehiculoExiste;
     }
 
 }
