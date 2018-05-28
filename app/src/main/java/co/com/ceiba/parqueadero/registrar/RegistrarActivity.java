@@ -122,12 +122,12 @@ public class RegistrarActivity extends AppCompatActivity {
     }
 
     public boolean validarPlaca(String placa) {
-        DataBaseVehiculoManager dataBase =  new DataBaseVehiculoManager(context);
+        DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
         boolean placaValida = VigilanteImpl.getInstance().validarPlaca(placa, Calendar.getInstance().getTimeInMillis());
         boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
         if (!placaValida) {
             Toast.makeText(context, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
-        }else if(vehiculoExiste){
+        } else if (vehiculoExiste) {
             Toast.makeText(context, getString(R.string.placa_existe), Toast.LENGTH_LONG).show();
         }
         return placaValida && !vehiculoExiste;

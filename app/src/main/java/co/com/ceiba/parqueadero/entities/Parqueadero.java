@@ -18,38 +18,4 @@ public class Parqueadero {
 
     public static final int TOPE_CILINDRAJE = 500;
 
-    //Contadores
-    private int cantidadCarros;
-    private int cantidadMotos;
-
-    static Parqueadero parqueadero;
-
-    public Parqueadero(int cantidadCarros, int cantidadMotos) {
-        this.cantidadCarros = cantidadCarros;
-        this.cantidadMotos = cantidadMotos;
-    }
-
-    public static Parqueadero getInstance(){
-        if(parqueadero == null){
-            parqueadero = new Parqueadero(0,0);
-        }
-        return parqueadero;
-    }
-
-    public int getCantidadCarros() {
-        return cantidadCarros;
-    }
-
-    public void setCantidadCarros(int cantidadCarros) {
-        this.cantidadCarros = cantidadCarros;
-    }
-
-    public int getCantidadMotos() {
-        return cantidadMotos;
-    }
-
-    public void setCantidadMotos(int cantidadMotos) {
-        this.cantidadMotos = cantidadMotos;
-    }
-
 }

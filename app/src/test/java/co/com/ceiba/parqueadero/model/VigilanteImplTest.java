@@ -24,46 +24,6 @@ public class VigilanteImplTest {
     }
 
     @Test
-    public void testValidarCantidadCarrosMenor() {
-        //Arrange
-        Parqueadero parqueadero = aParking().build();
-        //Act
-        boolean puedeIngresar = vigilante.validarCantidadCarros(parqueadero.getCantidadCarros());
-        //Assert
-        Assert.assertEquals(true, puedeIngresar);
-    }
-
-    @Test
-    public void testValidarCantidadCarrosMayor() {
-        //Arrange
-        Parqueadero parqueadero = aParking().withLimitCar(20).build();
-        //Act
-        boolean puedeIngresar = vigilante.validarCantidadCarros(parqueadero.getCantidadCarros());
-        //Assert
-        Assert.assertEquals(false, puedeIngresar);
-    }
-
-    @Test
-    public void testValidarCantidadMotosMenor() {
-        //Arrange
-        Parqueadero parqueadero = aParking().build();
-        //Act
-        boolean puedeIngresar = vigilante.validarCantidadMotos(parqueadero.getCantidadMotos());
-        //Assert
-        Assert.assertEquals(true, puedeIngresar);
-    }
-
-    @Test
-    public void testValidarCantidadMotosMayor() {
-        //Arrange
-        Parqueadero parqueadero = aParking().withLimitMoto(10).build();
-        //Act
-        boolean puedeIngresar = vigilante.validarCantidadMotos(parqueadero.getCantidadMotos());
-        //Assert
-        Assert.assertEquals(true, puedeIngresar);
-    }
-
-    @Test
     public void testValidarPlacaSinAInicial() {
         //Arrange
         Vehiculo vehiculo = aVehicle().withPlacaWithoutAinit("BTA234").build();
