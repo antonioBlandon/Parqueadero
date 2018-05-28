@@ -4,12 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static co.com.ceiba.parqueadero.model.ParqueaderoBuilder.aParking;
 import static co.com.ceiba.parqueadero.model.VehiculoBuilder.aVehicle;
 
-import co.com.ceiba.parqueadero.entities.Carro;
-import co.com.ceiba.parqueadero.entities.Moto;
-import co.com.ceiba.parqueadero.entities.Parqueadero;
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.entities.Vigilante;
 import co.com.ceiba.parqueadero.entities.VigilanteImpl;
