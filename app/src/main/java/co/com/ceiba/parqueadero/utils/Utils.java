@@ -16,7 +16,7 @@ public class Utils {
     }
 
     public String getDateHourInFormat(long timeInMillis){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm:SS");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm");
         return sdf.format(timeInMillis);
     }
 
