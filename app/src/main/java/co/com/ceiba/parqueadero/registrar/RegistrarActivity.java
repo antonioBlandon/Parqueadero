@@ -169,7 +169,7 @@ public class RegistrarActivity extends AppCompatActivity {
             etPlaca.setText("");
             return true;
         }
-        Toast.makeText(RegistrarActivity.this, getString(R.string.error_registro), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, getString(R.string.error_registro), Toast.LENGTH_SHORT).show();
         return false;
     }
 

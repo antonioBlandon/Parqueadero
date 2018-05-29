@@ -1,8 +1,12 @@
 package co.com.ceiba.parqueadero.model;
 
+import android.content.Context;
+import android.test.mock.MockContext;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import co.com.ceiba.parqueadero.entities.Vehiculo;
 import co.com.ceiba.parqueadero.registrar.RegistrarActivity;
@@ -16,6 +20,9 @@ import static org.mockito.Mockito.when;
 public class RegistrarActivityTest {
 
     RegistrarActivity registrarActivity;
+
+    @Mock
+    Context context;
 
     @Before
     public void prepareData() {
@@ -62,13 +69,6 @@ public class RegistrarActivityTest {
         boolean tieneAutorizacion = registrarActivity.validarPlacaConAutorizacion(vehiculo);
         //Assert
         Assert.assertEquals(true, tieneAutorizacion);
-    }
-
-    @Test
-    public void validarIngresoExitoso(){
-        //Con mockito determinamos el retorno del metodo estatico
-        DataBaseParqueaderoManager dataBaseParqueaderoManager = mock(DataBaseParqueaderoManager.class);
-        registrarActivity.validarIngresoExitoso(0);
     }
 
 }
