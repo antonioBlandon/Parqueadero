@@ -53,7 +53,7 @@ public class RegistrarActivity extends AppCompatActivity {
         btnRegistrarIngreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registrarIngreso();
+                registrarIngreso(etPlaca.getText().toString(), etCilindraje.getText().toString());
             }
         });
 
@@ -120,9 +120,7 @@ public class RegistrarActivity extends AppCompatActivity {
         }
     }
 
-    public void registrarIngreso() {
-        String placa = etPlaca.getText().toString();
-        String cilindraje = etCilindraje.getText().toString();
+    public void registrarIngreso(String placa, String cilindraje) {
         DataBaseVehiculoManager tableVehiculo = new DataBaseVehiculoManager(context);
         DataBaseParqueaderoManager tableParqueadero = new DataBaseParqueaderoManager(context);
 
@@ -130,12 +128,13 @@ public class RegistrarActivity extends AppCompatActivity {
 
             Vehiculo vehiculo = crearVehiculo(placa, cilindraje);
             boolean tieneCupo = validarCupo(cilindraje);
-            boolean placaValida = validarPlacaConAutorizacion(vehiculo);
-            boolean placaExiste = validarPlacaExiste(placa);
+            boolean placaValida = VigilanteImpl.getInstance().validarPlaca(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
+            boolean placaExiste = tableVehiculo.read(placa).getPlaca() != null;
+            boolean ingresoExitoso = false;
 
             if (tieneCupo && placaValida && !placaExiste) {
 
-                boolean ingresoExitoso = validarIngresoExitoso(tableVehiculo.create(vehiculo));
+                ingresoExitoso = validarIngresoExitoso(tableVehiculo.create(vehiculo));
                 if (ingresoExitoso) {
                     if (isCar) {
                         tableParqueadero.update(DataBaseConstans.TablaParqueadero.CANTIDAD_CARROS, true);
@@ -145,9 +144,26 @@ public class RegistrarActivity extends AppCompatActivity {
                 }
 
             }
-
+            showMessage(ingresoExitoso, placaValida, tieneCupo, placaExiste);
         } else {
             Toast.makeText(context, getString(R.string.placa_vacia), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void showMessage(boolean ingresoExitoso, boolean placaValida, boolean tieneCupo, boolean placaExiste) {
+        if (ingresoExitoso) {
+            Toast.makeText(context, getString(R.string.ingreso_exitoso), Toast.LENGTH_SHORT).show();
+        } else if ( placaValida && tieneCupo && !placaExiste) { //Solo se muestra si los otros mensajes no se han de mostrar
+            Toast.makeText(context, getString(R.string.error_registro), Toast.LENGTH_SHORT).show();
+        }
+        if (!placaValida) {
+            Toast.makeText(context, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
+        }
+        if (!tieneCupo) {
+            Toast.makeText(context, getString(R.string.parqueadero_lleno), Toast.LENGTH_LONG).show();
+        }
+        if (placaExiste) {
+            Toast.makeText(context, getString(R.string.placa_existe), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -164,30 +180,11 @@ public class RegistrarActivity extends AppCompatActivity {
 
     public boolean validarIngresoExitoso(long id) {
         if (id >= 0) {
-            Toast.makeText(context, getString(R.string.ingreso_exitoso), Toast.LENGTH_SHORT).show();
             etCilindraje.setText("");
             etPlaca.setText("");
             return true;
         }
-        Toast.makeText(context, getString(R.string.error_registro), Toast.LENGTH_SHORT).show();
         return false;
-    }
-
-    public boolean validarPlacaConAutorizacion(Vehiculo vehiculo) {
-        boolean placaValida = VigilanteImpl.getInstance().validarPlaca(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
-        if (!placaValida) {
-            Toast.makeText(context, getString(R.string.vehiculo_no_autorizado), Toast.LENGTH_LONG).show();
-        }
-        return placaValida;
-    }
-
-    public boolean validarPlacaExiste(String placa) {
-        DataBaseVehiculoManager dataBase = new DataBaseVehiculoManager(context);
-        boolean vehiculoExiste = dataBase.read(placa).getPlaca() != null;
-        if (vehiculoExiste) {
-            Toast.makeText(context, getString(R.string.placa_existe), Toast.LENGTH_LONG).show();
-        }
-        return vehiculoExiste;
     }
 
 }

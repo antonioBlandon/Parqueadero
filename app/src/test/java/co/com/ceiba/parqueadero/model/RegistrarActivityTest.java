@@ -14,6 +14,7 @@ import co.com.ceiba.parqueadero.storage.DataBaseParqueaderoManager;
 import co.com.ceiba.parqueadero.storage.DataBaseVehiculoManager;
 
 import static co.com.ceiba.parqueadero.model.VehiculoBuilder.aVehicle;
+import static org.mockito.Matchers.booleanThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,23 +53,13 @@ public class RegistrarActivityTest {
     }
 
     @Test
-    public void validarPlacaConAutorizacionSinAinicial() {
+    public void testValidarIngresoExitosoError() {
         //Arrange
-        Vehiculo vehiculo = aVehicle().withPlacaWithoutAinit("BTA234").build();
+        long id = -1;
         //Act
-        boolean tieneAutorizacion = registrarActivity.validarPlacaConAutorizacion(vehiculo);
+        boolean ingresoExitoso = registrarActivity.validarIngresoExitoso(id);
         //Assert
-        Assert.assertEquals(true, tieneAutorizacion);
-    }
-
-    @Test
-    public void validarPlacaConAutorizacionConAinicialDiasValidos() {
-        //Arrange
-        Vehiculo vehiculo = aVehicle().withFechaValida(1515934000).build();//Sun Jan 18 1970 08:05:34 GMT-0500
-        //Act
-        boolean tieneAutorizacion = registrarActivity.validarPlacaConAutorizacion(vehiculo);
-        //Assert
-        Assert.assertEquals(true, tieneAutorizacion);
+        Assert.assertEquals(false, ingresoExitoso);
     }
 
 }
